@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./Base64.sol";
+import "./PlatziPunksDNA.sol";
 
 contract PlatziPunks is ERC721, ERC721Enumerable {
     using Counters for Counters.Counter;
@@ -34,6 +35,7 @@ contract PlatziPunks is ERC721, ERC721Enumerable {
                tokenId,
                '", "description": "Platzi Punks are randomized Avataaars stored on chain to teach DApp development on Platzi", "image": "',
                "//TODO: Caculate image URL",
+               '"attributes": [{"Accessories Type": "Blank" ,"Clothe Color": "Red","Clothe Type":"Hoodie","Eye Type":"Close","Eye Brow Type":"Angry","Facial Hair Color":"Blonde","Facial Hair Type":"MoustacheMagnum","Hair Color":"SilverGray","Hat Color":"white","Graphic Type":"Skull","Mouth Type":"Smile","Skin Color":"Light","Top Type":"LongHairMiaWallace",}]',
                '"}'
             )
         );
