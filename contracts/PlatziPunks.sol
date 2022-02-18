@@ -11,9 +11,10 @@ import "./PlatziPunksDNA.sol";
 
 contract PlatziPunks is ERC721, ERC721Enumerable, PlatziPunksDNA {
     using Counters for Counters.Counter;
+    using Strings for uint256;
 
     Counters.Counter private _idCounter;
-    uint256 immutable maxSupply; //Con immutable el maxSupply se define en el constructor y ya no se puede cambiar.
+    uint256 public immutable maxSupply; //Con immutable el maxSupply se define en el constructor y ya no se puede cambiar.
     mapping(uint256 => uint256) public tokenDNA;
 
     constructor(uint256 _maxSupply) ERC721("PlatziPunks", "PLPKS") {
@@ -82,16 +83,20 @@ contract PlatziPunks is ERC721, ERC721Enumerable, PlatziPunksDNA {
         string memory image = imageByDNA(dna);
 
         string memory jsonURI = Base64.encode(
-            abi.encodePacked(
-               '{ "name": "PlatziPunks #"',
-               tokenId,
-               '", "description": "Platzi Punks are randomized Avataaars stored on chain to teach DApp development on Platzi", "image": "',
-               image,
-               //'"attributes": [{"Accessories Type": "Blank" ,"Clothe Color": "Red","Clothe Type":"Hoodie","Eye Type":"Close","Eye Brow Type":"Angry","Facial Hair Color":"Blonde","Facial Hair Type":"MoustacheMagnum","Hair Color":"SilverGray","Hat Color":"white","Graphic Type":"Skull","Mouth Type":"Smile","Skin Color":"Light","Top Type":"LongHairMiaWallace",}]',
-               '"}'
+            bytes(
+                string(
+                    abi.encodePacked(
+                        '{"name": "PlatziPunk #',
+                        tokenId.toString(),
+                        '", "description": "Platzi Punks are randomized Avataaars stored on chain to teach DApp development on Platzi", "image": "',
+                        image,
+                        //'"attributes": [{"Accessories Type": "Blank" ,"Clothe Color": "Red","Clothe Type":"Hoodie","Eye Type":"Close","Eye Brow Type":"Angry","Facial Hair Color":"Blonde","Facial Hair Type":"MoustacheMagnum","Hair Color":"SilverGray","Hat Color":"white","Graphic Type":"Skull","Mouth Type":"Smile","Skin Color":"Light","Top Type":"LongHairMiaWallace",}]',
+                        '"}'
+                    )
+                )
             )
         );
-
+        
         return string(abi.encodePacked("data:application/json;base64,",jsonURI));
     }
 
