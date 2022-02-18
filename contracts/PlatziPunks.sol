@@ -2,9 +2,11 @@
 
 pragma solidity ^0.8.0;
 
+import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "./Base64.sol";
 
 contract PlatziPunks is ERC721, ERC721Enumerable {
     using Counters for Counters.Counter;
@@ -21,6 +23,22 @@ contract PlatziPunks is ERC721, ERC721Enumerable {
         require(current < maxSupply, "No PlatziPunks left.");
         _safeMint(msg.sender, current);
         _idCounter.increment();
+    }
+
+    function tokenURI(uint256 tokenId) public view override returns (string memory){
+        require(_exists(tokenId), "ERC721 Metadata: URI query for nonexistent token");
+
+        string memory jsonURI = Base64.encode(
+            abi.encodePacked(
+               '{ "name": "PlatziPunks #"',
+               tokenId,
+               '", "description": "Platzi Punks are randomized Avataaars stored on chain to teach DApp development on Platzi", "image": "',
+               "//TODO: Caculate image URL",
+               '"}'
+            )
+        );
+
+        return string(abi.encodePacked("data:application/json;base64,",jsonURI));
     }
 
     // The following functions are overrides required by Solidity.
